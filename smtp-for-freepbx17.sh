@@ -112,8 +112,13 @@ echo "Restarting Postfix..."
 systemctl restart postfix
 
 echo "Configuration complete."
-read -p "Would you like to send a test email to $SMTP_USER? (y/n): " CONFIRM
+read -p "Would you like to send a test email? (y/n): " CONFIRM
+
 if [[ $CONFIRM == "y" ]]; then
+    read -p "Enter the email address to receive the test mail: " TEST_RECIPIENT
     echo "Testing... Check /var/log/mail.log for status."
-    echo "Test mail from FreePBX Postfix" | mail -s "Test Postfix" $SMTP_USER
+    echo "Test mail from FreePBX Postfix" | mail -s "Test Postfix" "$TEST_RECIPIENT"
+    
+    echo "------------------------------------------------"
+    echo "Check results with: tail -n 20 /var/log/mail.log"
 fi
